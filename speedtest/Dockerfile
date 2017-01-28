@@ -1,4 +1,4 @@
-FROM alpine
-RUN apk add --no-cache python
-ADD https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py /speedtest
-ENTRYPOINT ["python","/speedtest"]
+FROM python:3-alpine
+ADD https://raw.githubusercontent.com/sivel/speedtest-cli/master/speedtest.py /usr/bin/speedtest
+RUN chmod +x /usr/bin/speedtest
+ENTRYPOINT ["/usr/bin/speedtest"]
