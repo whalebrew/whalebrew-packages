@@ -15,7 +15,9 @@ RUN apk --update upgrade && \
 
 RUN pip install \
         awscli \
-        ansible && \
+        ansible \
+        boto \
+        boto3 && \
     rm -f /var/cache/apk/*.tar.gz
 
 ## Make sure we run as a non-privileged user
