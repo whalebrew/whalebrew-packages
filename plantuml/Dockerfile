@@ -1,4 +1,4 @@
-FROM java:8-alpine
+FROM java:8-jre-alpine
 
 ENV LANG en_US.UTF-8
 ENV PLANTUML_VERSION 8056
