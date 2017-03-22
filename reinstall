@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+
+# Inspiration from:
+# https://linuxconfig.org/bash-script-display-usage-and-check-user
+# http://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux
+
+set -euo pipefail
+
+display_usage() {
+  echo -e "\nUsage: reinstall folder [folder...]"
+}
+
+display_help() {
+  echo "Builds the container in the folders you provided"
+  echo "and reinstalls them with 'whalebrew install'"
+}
+
+BLUE='\033[0;34m'
+LIGHT_BLUE='\033[1;34m'
+RED='\033[1;31m'
+NC='\033[0m'
+
+print_header() {
+  echo -e "${BLUE}$@${NC}"
+}
+
+print_message() {
+  echo -e "${LIGHT_BLUE}$@${NC}"
+}
+
+print_error() {
+  echo -e "${RED}$@${NC}"
+}
+
+if [[ ( $@ == "--help") ||  $@ == "-h" ]]
+then
+  display_help
+	display_usage
+	exit 0
+fi
+
+if [ "$#" -lt 1 ]
+then
+  print_error "Please provide at least 1 folder to rebuild and install"
+  display_usage
+  exit 1
+fi
+
+# Iterate over arguments to make sure every folder exists
+for folder in "$@"
+do
+  if [ ! -d "$folder" ]; then
+    print_error "Directory '$folder' for container build needs to exist"
+    display_usage
+    exit 1
+  fi
+done
+
+print_header "REINSTALLING:"
+print_header "${@%/}\n"
+
+# Iterate over all folders, rebuild and reinstall containers
+for folder in "$@"
+do
+  # Filter trailing slashes for folders which can happen through tab complete
+  folder_name=${folder%/}
+  container_name=whalebrew/$folder_name
+
+  print_message "Docker Build for $container_name:"
+  docker build -t $container_name $folder_name
+
+  print_message "\nReinstalling: $folder_name"
+
+  whalebrew install -f $container_name
+
+  print_message "Successfully installed $container_name:\n"
+done
