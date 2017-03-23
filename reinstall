@@ -67,7 +67,7 @@ do
   container_name=whalebrew/$folder_name
 
   print_message "Docker Build for $container_name:"
-  docker build -t $container_name $folder_name
+  docker build --no-cache --pull -t $container_name $folder_name
 
   print_message "\nReinstalling: $folder_name"
 
