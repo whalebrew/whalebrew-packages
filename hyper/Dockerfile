@@ -4,5 +4,5 @@ RUN apt-get update -qq && apt-get install -qy curl && \
     chmod +x /usr/bin/hyper && \
     apt-get remove --purge -y curl $(apt-mark showauto) && \
     rm -rf /var/lib/apt/lists/*
-LABEL io.whalebrew.config.volumes '["~/.hyper:/root/.hyper"]'
+LABEL io.whalebrew.config.volumes '["~/.hyper:/.hyper"]'
 ENTRYPOINT ["/usr/bin/hyper"]
