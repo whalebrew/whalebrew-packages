@@ -1,4 +1,4 @@
-# AUTHORS
+# CONTRIBUTORS
 Ben Firshman
 Masahiro Yamauchi
 Mark Pitman
