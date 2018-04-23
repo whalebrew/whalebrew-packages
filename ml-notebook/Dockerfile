@@ -4,11 +4,10 @@ FROM ubuntu
 LABEL io.whalebrew.name ml-notebook
 LABEL io.whalebrew.config.ports '["8888:8888"]'
 
-RUN apt-get update -y
-RUN apt-get install -y python-pip python3-pip python-dev python3-dev
+RUN apt-get update -y && apt-get install -y python-pip python3-pip python-dev python3-dev python-tk wget curl unzip tree
 
 RUN pip install --upgrade pip
-RUN pip install jupyter matplotlib gluon tensorflow numpy pandas sklearn scipy keras mxnet opencv-python
+RUN pip install jupyter matplotlib gluon tensorflow numpy pandas sklearn scipy keras mxnet opencv-python jsanimation
 
 RUN pip3 install --upgrade pip
 RUN pip3 install jupyter matplotlib gluon tensorflow numpy pandas sklearn scipy keras mxnet opencv-python
