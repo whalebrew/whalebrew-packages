@@ -17,7 +17,7 @@ RUN set -ex && \
 FROM debian
 
 LABEL io.whalebrew.name tridentctl
-LABEL io.whalebrew.config.environment '["KUBECONFIG","HOME"]'
+LABEL io.whalebrew.config.environment '["HOME"]'
 LABEL io.whalebrew.config.volumes '["~/.kube:$HOME/.kube:ro","~/.minikube:$HOME/.minikube:ro"]'
 
 COPY --from=0 /tridentctl /usr/local/bin/tridentctl
