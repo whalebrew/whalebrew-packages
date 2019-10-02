@@ -1,3 +1,4 @@
 FROM python:3-alpine
-RUN pip install pygments
+ARG VERSION
+RUN pip install pygments${VERSION+==$VERSION}
 ENTRYPOINT ["pygmentize"]

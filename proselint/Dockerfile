@@ -1,3 +1,4 @@
 FROM python:3-alpine
-RUN pip install proselint
+ARG VERSION
+RUN pip install proselint${VERSION+==$VERSION}
 ENTRYPOINT ["proselint"]

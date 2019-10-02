@@ -1,4 +1,5 @@
 FROM python:3-alpine
 RUN apk add --no-cache ffmpeg
-RUN pip install youtube-dl
+ARG VERSION
+RUN pip install youtube-dl${VERSION+==$VERSION}
 ENTRYPOINT ["youtube-dl"]

@@ -1,4 +1,5 @@
 FROM python:3-alpine
-RUN pip install httpie
+ARG VERSION
+RUN pip install httpie${VERSION+==$VERSION}
 RUN mkdir /.httpie && echo "{}" > /.httpie/config.json
 ENTRYPOINT ["http"]
