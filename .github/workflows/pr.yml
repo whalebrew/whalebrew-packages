@@ -1,0 +1,13 @@
+name: "build-test"
+on: # rebuild any PRs and main branch changes
+  pull_request:
+
+jobs:
+  test-docker-build:
+    runs-on: ubuntu-latest
+    strategy:
+        matrix:
+            test: ["a", "b"]
+    steps:
+    #- uses: actions/checkout@v1
+    - run: echo ${{ matrix.test }}
