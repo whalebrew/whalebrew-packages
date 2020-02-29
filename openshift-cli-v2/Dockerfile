@@ -1,4 +1,4 @@
-FROM ruby:2.1-alpine
+FROM ruby:2.2.6-alpine
 RUN apk add --no-cache git
 RUN gem install rhc
 LABEL io.whalebrew.name rhc
