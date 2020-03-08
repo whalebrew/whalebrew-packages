@@ -7,7 +7,13 @@ on: # rebuild any PRs and main branch changes
     - 're-builld-all'
 
 jobs:
-  test-docker-build:
+  all-image-build-success:
+    needs:
+    - docker-build
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo success
+  docker-build:
     runs-on: ubuntu-latest
     strategy:
         fail-fast: false
