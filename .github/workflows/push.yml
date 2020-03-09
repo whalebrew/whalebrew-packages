@@ -90,10 +90,14 @@ jobs:
     - uses: actions/checkout@v1
       if: steps.is-modified.outputs.modified == 'true' || (github.event_name == 'push' && github.event.ref == 'refs/heads/re-builld-all')
     - run: |
-        docker build -t ${{ matrix.image }} ${{ matrix.image }}
+        echo ::group::build image ${{ matrix.image }}:latest
+          docker build -t ${{ matrix.image }} ${{ matrix.image }}
+        echo ::endgroup::
         if [ -e "${{ matrix.image }}/tags.yaml" ]; then
           for tag in $(cat "${{ matrix.image }}/tags.yaml" | docker run --rm -i whalebrew/yq  -r '.versions[]'); do
-            docker build -t ${{ matrix.image }}:${tag} --build-arg VERSION=${tag} ${{ matrix.image }}
+            echo ::group::build image ${{ matrix.image }}:${tag}
+              docker build -t ${{ matrix.image }}:${tag} --build-arg VERSION=${tag} ${{ matrix.image }}
+            echo ::endgroup::
           done
         fi
       if: steps.is-modified.outputs.modified == 'true' || (github.event_name == 'push' && github.event.ref == 'refs/heads/re-builld-all')
