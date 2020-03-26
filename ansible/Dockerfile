@@ -1,5 +1,7 @@
 FROM alpine:latest
 
+ARG VERSION=2.9.6
+
 RUN apk --update upgrade && \ 
     apk add \
         py-pip \ 
@@ -15,7 +17,7 @@ RUN apk --update upgrade && \
 ## Adding boto and boto3 for AWS modules.  This can obviously be expanded as needed
 RUN pip install --no-cache-dir \
         pycparser==2.13 \ 
-        ansible \ 
+        ansible${VERSION+==$VERSION} \ 
         boto \ 
         boto3
 

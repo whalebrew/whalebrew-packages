@@ -1,0 +1,117 @@
+name: "build-images"
+on: # rebuild any PRs and main branch changes
+  pull_request:
+  push:
+    branches:
+    - 'master'
+    - 're-builld-all'
+
+jobs:
+  all-image-build-success:
+    needs:
+    - docker-build
+    runs-on: ubuntu-latest
+    steps:
+    - run: echo success
+  docker-build:
+    runs-on: ubuntu-latest
+    strategy:
+        fail-fast: false
+        matrix:
+            image:
+            - ab
+            - ack
+            - ansible
+            - ant
+            - awscli
+            - awslogs
+            - azure-cli
+            - cfn-create-or-update
+            - curl
+            - date
+            - dig
+            - docker-cloud
+            - erd
+            - ffmpeg
+            - figlet
+            - find
+            - fortune
+            - gawk
+            - gnupg
+            - helm
+            - host
+            - httpie
+            - hugo
+            - imagemagick
+            - ionic
+            - irssi
+            - jq
+            - kubectl
+            - lessc
+            - lynx
+            - mercurial
+            - mitmproxy
+            - mutt
+            - nc
+            - nkf
+            - nmap
+            - node
+            - npm
+            - openshift-cli-v2
+            - packer
+            - par2
+            - php
+            - plantuml
+            - proselint
+            - pwgen
+            - pygmentize
+            - rar
+            - review
+            - seagull
+            - sed
+            - shellcheck
+            - sl
+            - socat
+            - speedtest
+            - terraform
+            - the_silver_searcher
+            - travis
+            - unrar
+            - vegeta
+            - wget
+            - whalesay
+            - youtube-dl
+            - yq
+    steps:
+    - uses: actions-go/modified@master
+      id: is-modified
+      with:
+        pattern: ${{ matrix.image }}/**
+    - uses: actions/checkout@v1
+      if: steps.is-modified.outputs.modified == 'true' || (github.event_name == 'push' && github.event.ref == 'refs/heads/re-builld-all')
+    - run: |
+        echo ::group::build image ${{ matrix.image }}:latest
+          docker build -t ${{ matrix.image }} ${{ matrix.image }}
+        echo ::endgroup::
+        if [ -e "${{ matrix.image }}/tags.yaml" ]; then
+          for tag in $(cat "${{ matrix.image }}/tags.yaml" | docker run --rm -i whalebrew/yq  -r '.versions[]'); do
+            echo ::group::build image ${{ matrix.image }}:${tag}
+              docker build -t ${{ matrix.image }}:${tag} --build-arg VERSION=${tag} ${{ matrix.image }}
+            echo ::endgroup::
+          done
+        fi
+      if: steps.is-modified.outputs.modified == 'true' || (github.event_name == 'push' && github.event.ref == 'refs/heads/re-builld-all')
+    - run: |
+        echo ${{ secrets.DOCKER_HUB_PASSWORD }} | base64 -d | docker login --password-stdin -u whalebrewci
+        echo ${{ github.token }} | docker login --password-stdin -u ${{ github.actor }} docker.pkg.github.com
+        docker tag ${{ matrix.image }} ${{ github.event.repository.owner.name}}/${{ matrix.image }}
+        docker tag ${{ matrix.image }} docker.pkg.github.com/${{ github.event.repository.owner.name }}/${{ github.event.repository.name }}/${{ matrix.image }}
+        if [ -e "${{ matrix.image }}/tags.yaml" ]; then
+          for tag in $(cat "${{ matrix.image }}/tags.yaml" | docker run --rm -i whalebrew/yq  -r '.versions[]'); do
+            docker tag ${{ matrix.image }}:${tag} ${{ github.event.repository.owner.name}}/${{ matrix.image }}:${tag}
+            docker tag ${{ matrix.image }}:${tag} docker.pkg.github.com/${{ github.event.repository.owner.name }}/${{ github.event.repository.name }}/${{ matrix.image }}:${tag}
+          done
+        fi
+        docker push ${{ github.event.repository.owner.name}}/${{ matrix.image }}
+        docker push docker.pkg.github.com/${{ github.event.repository.owner.name}}/${{ github.event.repository.name }}/${{ matrix.image }}
+      if: github.event_name == 'push' && ( steps.is-modified.outputs.modified == 'true' || github.event.ref == 'refs/heads/re-builld-all')

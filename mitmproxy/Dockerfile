@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM python:3.8-alpine
 
 ENV LANG=en_US.UTF-8
 LABEL io.whalebrew.config.ports '["8080:8080"]'
@@ -22,7 +22,6 @@ RUN apk add --no-cache \
 		libxslt-dev \
 		openssl \
 		openssl-dev \
-		python3 \
 		python3-dev \
 		zlib \
 		zlib-dev \
