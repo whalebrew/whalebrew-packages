@@ -1,8 +1,12 @@
-FROM alpine
+FROM alpine as build
 RUN apk add --no-cache make
-RUN wget http://www.rarlab.com/rar/rarlinux-5.4.0.tar.gz && \
-	tar -xzvf rarlinux-5.4.0.tar.gz && \
-	cd rar && \
-	make && \
-	mv rar_static /usr/local/bin/rar
-ENTRYPOINT ["rar"]
+
+RUN mkdir /dl
+RUN wget -O - https://www.rarlab.com/rar/rarlinux-x64-5.8.0.tar.gz | tar -xzf - -C dl
+
+FROM debian:stable-slim
+RUN apt-get update && apt-get install libstdc++6 libc6 libgcc1
+COPY --from=build /dl/rar/rar /usr/local/bin/rar
+COPY --from=build /dl/rar/rarfiles.lst /etc/
+COPY --from=build /dl/rar/default.sfx /usr/local/lib/
+ENTRYPOINT ["/usr/local/bin/rar"]
