@@ -1,5 +1,6 @@
-FROM node:6
+FROM node:14-alpine
 
-RUN npm install -g less
+ARG VERSION
+RUN npm install -g less${VERSION+@$VERSION}
 
 ENTRYPOINT ["lessc"]
