@@ -30,6 +30,7 @@ jobs:
             - curl
             - date
             - dig
+            - drone
             - docker-cloud
             - erd
             - ffmpeg
