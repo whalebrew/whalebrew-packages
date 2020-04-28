@@ -1,5 +1,10 @@
+FROM alpine as download
+RUN apk add --no-cache curl
+ARG VERSION
+ENV GITHUB_REPO tsenart/vegeta
+RUN ! [ -z "${VERSION}" ] || export VERSION=$(curl -w%{url_effective} -Ls -o /dev/null https://github.com/${GITHUB_REPO}/releases/latest | grep -oE "[^/]+$"); \
+    curl -L -s https://github.com/${GITHUB_REPO}/releases/download/${VERSION}/vegeta-${VERSION#v}-linux-amd64.tar.gz | gunzip | tar xv
+
 FROM alpine
-ENV VERSION 6.1.1
-ADD https://github.com/tsenart/vegeta/releases/download/v${VERSION}/vegeta-v${VERSION}-linux-amd64.tar.gz /tmp/vegeta.tar.gz
-RUN apk update && apk --no-cache add ca-certificates && tar -zxvf /tmp/vegeta.tar.gz -C /bin && chmod +x /bin/vegeta && rm /tmp/vegeta.tar.gz && rm -rf /var/cache/*
+COPY --from=download /vegeta /usr/local/bin/vegeta
 ENTRYPOINT ["vegeta"]

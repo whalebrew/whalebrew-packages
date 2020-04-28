@@ -45,8 +45,10 @@ jobs:
             - imagemagick
             - ionic
             - irssi
+            - jfrog
             - jq
             - kubectl
+            - kubeseal
             - lessc
             - lynx
             - mercurial
