@@ -26,6 +26,7 @@ jobs:
             - awscli
             - awslogs
             - azure-cli
+            - bonnie++
             - cfn-create-or-update
             - curl
             - date
