@@ -26,10 +26,12 @@ jobs:
             - awscli
             - awslogs
             - azure-cli
+            - bonnie++
             - cfn-create-or-update
             - curl
             - date
             - dig
+            - drone
             - docker-cloud
             - erd
             - ffmpeg
