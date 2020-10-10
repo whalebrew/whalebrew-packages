@@ -27,6 +27,7 @@ jobs:
             - awslogs
             - azure-cli
             - bonnie++
+            - cookiecutter
             - cfn-create-or-update
             - curl
             - date
@@ -66,6 +67,7 @@ jobs:
             - par2
             - php
             - plantuml
+            - pre-commit
             - proselint
             - pwgen
             - pygmentize
@@ -78,6 +80,8 @@ jobs:
             - socat
             - speedtest
             - terraform
+            - tflint
+            - tfsec
             - the_silver_searcher
             - travis
             - unrar
