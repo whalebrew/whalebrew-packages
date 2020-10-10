@@ -80,6 +80,7 @@ jobs:
             - socat
             - speedtest
             - terraform
+            - terraform-docs
             - tflint
             - tfsec
             - the_silver_searcher
