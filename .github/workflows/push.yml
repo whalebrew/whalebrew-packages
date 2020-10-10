@@ -19,11 +19,73 @@ jobs:
         fail-fast: false
         matrix:
             image:
-            - tfenv
-            - tflint
-            - terraform-docs
-            - cookiecutter
-            - pre-commit
+            - ab
+            - ack
+            - ansible
+            - ant
+            - awscli
+            - awslogs
+            - azure-cli
+            - bonnie++
+            - cfn-create-or-update
+            - curl
+            - date
+            - dig
+            - drone
+            - docker-cloud
+            - erd
+            - ffmpeg
+            - figlet
+            - find
+            - fortune
+            - gawk
+            - gnupg
+            - helm
+            - host
+            - httpie
+            - hugo
+            - imagemagick
+            - ionic
+            - irssi
+            - jfrog
+            - jq
+            - kubectl
+            - kubeseal
+            - lessc
+            - lynx
+            - mercurial
+            - mitmproxy
+            - mutt
+            - nc
+            - nkf
+            - nmap
+            - node
+            - npm
+            - openshift-cli-v2
+            - packer
+            - par2
+            - php
+            - plantuml
+            - proselint
+            - pwgen
+            - pygmentize
+            - rar
+            - review
+            - seagull
+            - sed
+            - shellcheck
+            - sl
+            - socat
+            - speedtest
+            - terraform
+            - the_silver_searcher
+            - travis
+            - unrar
+            - vegeta
+            - wget
+            - whalesay
+            - youtube-dl
+            - yq
     steps:
     - uses: actions-go/modified@master
       id: is-modified
@@ -44,7 +106,7 @@ jobs:
         fi
       if: steps.is-modified.outputs.modified == 'true' || (github.event_name == 'push' && github.event.ref == 'refs/heads/re-builld-all')
     - run: |
-        echo ${{ secrets.DOCKER_HUB_PASSWORD }} | base64 -d | docker login --password-stdin -u aidanmelen
+        echo ${{ secrets.DOCKER_HUB_PASSWORD }} | base64 -d | docker login --password-stdin -u whalebrewci
         echo ${{ github.token }} | docker login --password-stdin -u ${{ github.actor }} docker.pkg.github.com
         docker tag ${{ matrix.image }} ${{ github.event.repository.owner.name}}/${{ matrix.image }}
         docker tag ${{ matrix.image }} docker.pkg.github.com/${{ github.event.repository.owner.name }}/${{ github.event.repository.name }}/${{ matrix.image }}
