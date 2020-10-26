@@ -26,10 +26,13 @@ jobs:
             - awscli
             - awslogs
             - azure-cli
+            - bonnie++
+            - cookiecutter
             - cfn-create-or-update
             - curl
             - date
             - dig
+            - drone
             - docker-cloud
             - erd
             - ffmpeg
@@ -65,6 +68,7 @@ jobs:
             - par2
             - php
             - plantuml
+            - pre-commit
             - proselint
             - pwgen
             - pygmentize
@@ -77,6 +81,9 @@ jobs:
             - socat
             - speedtest
             - terraform
+            - terraform-docs
+            - tflint
+            - tfsec
             - the_silver_searcher
             - travis
             - unrar
