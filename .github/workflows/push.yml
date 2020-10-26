@@ -63,7 +63,11 @@ jobs:
             - node
             - npm
             - oc
-            - octodns-*
+            - octodns-compare
+            - octodns-dump
+            - octodns-report
+            - octodns-sync
+            - octodns-validate
             - openshift-cli-v2
             - packer
             - par2
