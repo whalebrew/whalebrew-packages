@@ -1,7 +1,8 @@
 FROM alpine AS download
 ARG VERSION
 RUN apk add --no-cache --update curl && \
-    curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable/openshift-client-linux.tar.gz && \
+    ! [ -z "${VERSION}" ] || export VERSION=stable
+    curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/ocp/$VERSION/openshift-client-linux.tar.gz && \
     tar xvzf openshift-client-linux.tar.gz && \
     chmod +x oc
 
