@@ -58,6 +58,7 @@ jobs:
             - mitmproxy
             - mutt
             - nc
+            - neuron
             - nkf
             - nmap
             - node
