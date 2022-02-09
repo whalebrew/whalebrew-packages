@@ -39,6 +39,7 @@ jobs:
             - figlet
             - find
             - fortune
+            - graphviz
             - gawk
             - gnupg
             - helm
@@ -78,6 +79,7 @@ jobs:
             - proselint
             - pwgen
             - pygmentize
+            - pywhat
             - rar
             - review
             - seagull
