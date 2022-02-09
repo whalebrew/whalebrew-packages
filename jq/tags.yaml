@@ -1,10 +1,11 @@
 provider:
+    exclude:
+      - 1.6rc2
     github:
         owner: stedolan
         name: jq
 versions:
   - jq-1.6
-  - 1.6rc2
   - jq-1.6rc1
   - jq-1.5
   - jq-1.5rc2
