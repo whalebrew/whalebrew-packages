@@ -8,3 +8,4 @@ ARG VERSION=3.2.0
 
 RUN pip install pywhat${VERSION+==$VERSION}
 ENTRYPOINT ["pywhat"]
+# force-update 2022-02-10
