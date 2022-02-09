@@ -1,4 +1,9 @@
+provider:
+    github:
+        owner: tsenart
+        name: vegeta
 versions:
-- v12.8.0
-- v12.7.0
-- v12.6.0
+  - v12.8.4
+  - v12.8.3
+  - v12.8.2
+  - v12.7.0
