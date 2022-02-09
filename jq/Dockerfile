@@ -5,3 +5,4 @@ RUN wget -O /usr/local/bin/jq https://github.com/stedolan/jq/releases/download/$
 FROM scratch
 COPY --from=build /usr/local/bin/jq /usr/local/bin/jq
 ENTRYPOINT ["jq"]
+# force-update 2022-02-10

@@ -128,8 +128,9 @@ jobs:
           for tag in $(cat "${{ matrix.image }}/tags.yaml" | docker run --rm -i whalebrew/yq  -r '.versions[]'); do
             docker tag ${{ matrix.image }}:${tag} ${{ github.event.repository.owner.name}}/${{ matrix.image }}:${tag}
             docker tag ${{ matrix.image }}:${tag} docker.pkg.github.com/${{ github.event.repository.owner.name }}/${{ github.event.repository.name }}/${{ matrix.image }}:${tag}
+            docker push ${{ github.event.repository.owner.name}}/${{ matrix.image }}:${tag}
+            docker push docker.pkg.github.com/${{ github.event.repository.owner.name}}/${{ github.event.repository.name }}/${{ matrix.image }}:${tag}
           done
         fi
-        docker push ${{ github.event.repository.owner.name}}/${{ matrix.image }}
-        docker push docker.pkg.github.com/${{ github.event.repository.owner.name}}/${{ github.event.repository.name }}/${{ matrix.image }}
+        
       if: github.event_name == 'push' && ( steps.is-modified.outputs.modified == 'true' || github.event.ref == 'refs/heads/re-builld-all')
