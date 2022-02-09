@@ -16,3 +16,4 @@ FROM alpine
 COPY --from=download /download/kubeseal /bin/kubeseal
 LABEL io.whalebrew.config.volumes '["~/.kube:/.kube"]'
 ENTRYPOINT ["/bin/kubeseal"]
+# force-update 2022-02-10

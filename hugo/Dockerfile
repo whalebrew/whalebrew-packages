@@ -12,3 +12,4 @@ COPY --from=download /hugo /usr/local/bin/hugo
 LABEL io.whalebrew.config.ports '["1313:1313"]'
 
 ENTRYPOINT ["hugo"]
+# force-update 2022-02-10

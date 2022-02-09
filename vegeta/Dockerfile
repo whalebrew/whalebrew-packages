@@ -11,3 +11,4 @@ RUN ! [ -z "${VERSION}" ] || export VERSION=$(curl -w%{url_effective} -Ls -o /de
 FROM alpine
 COPY --from=download /vegeta /usr/local/bin/vegeta
 ENTRYPOINT ["vegeta"]
+# force-update 2022-02-10
