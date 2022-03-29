@@ -3,8 +3,5 @@ provider:
         owner: gohugoio
         name: hugo
 versions:
-  - v0.92.1
-  - v0.92.0
-  - v0.91.2
-  - v0.91.1
-  - v0.91.0
+  - v0.96.0
+  - v0.95.0
