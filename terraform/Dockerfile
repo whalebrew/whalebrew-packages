@@ -1,4 +1,5 @@
-FROM hashicorp/terraform:latest
+ARG VERSION=latest
+FROM hashicorp/terraform:${VERSION}
 
 ## Adding in case we need Terraform to call them.
 RUN apk --update upgrade && \
