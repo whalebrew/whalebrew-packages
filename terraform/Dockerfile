@@ -13,7 +13,6 @@ RUN apk --update upgrade && \
         ca-certificates \ 
         sudo \ 
         openssl
-
 RUN pip install \
         awscli \
         ansible \
