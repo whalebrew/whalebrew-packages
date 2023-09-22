@@ -1,0 +1,7 @@
+provider:
+    docker:
+        name: hashicorp/terraform
+versions:
+  - 1.5
+  - 1.5.7
+  - 1.4.7
