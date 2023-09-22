@@ -2,15 +2,27 @@ name: "build-images"
 on:
   workflow_dispatch:
     inputs:
+      owner:
+        type: string
+        default: whalebrew
       image:
         required: true
         type: string
+      push:
+        default: true
+        type: boolean
 
   workflow_call:
     inputs:
+      owner:
+        type: string
+        default: whalebrew
       image:
         required: true
         type: string
+      push:
+        default: true
+        type: boolean
 
 jobs:
   docker-build:
@@ -21,7 +33,7 @@ jobs:
       with:
         username: whalebrewci
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
-    - name: Login to Docker Hub
+    - name: Login to github container registry
       uses: docker/login-action@v3
       with:
         registry: ghcr.io
@@ -39,14 +51,15 @@ jobs:
             echo ::endgroup::
           done
         fi
-    - run: |
-        docker tag ${{ inputs.image }} ${{ github.event.repository.owner.name}}/${{ inputs.image }}
-        docker tag ${{ inputs.image }} ghcr.io/${{ github.event.repository.owner.name }}/${{ github.event.repository.name }}/${{ inputs.image }}
+    - if: inputs.push
+      run: |
+        docker tag ${{ inputs.image }} ${{ inputs.owner}}/${{ inputs.image }}
+        docker tag ${{ inputs.image }} ghcr.io/${{ inputs.owner }}/${{ github.event.repository.name }}/${{ inputs.image }}
         if [ -e "${{ inputs.image }}/tags.yaml" ]; then
           for tag in $(cat "${{ inputs.image }}/tags.yaml" | docker run --rm -i whalebrew/yq  -r '.versions[]'); do
-            docker tag ${{ inputs.image }}:${tag} ${{ github.event.repository.owner.name}}/${{ inputs.image }}:${tag}
-            docker tag ${{ inputs.image }}:${tag} ghcr.io/${{ github.event.repository.owner.name }}/${{ github.event.repository.name }}/${{ inputs.image }}:${tag}
-            docker push ${{ github.event.repository.owner.name}}/${{ inputs.image }}:${tag}
-            docker push ghcr.io/${{ github.event.repository.owner.name}}/${{ github.event.repository.name }}/${{ inputs.image }}:${tag}
+            docker tag ${{ inputs.image }}:${tag} ${{ inputs.owner}}/${{ inputs.image }}:${tag}
+            docker tag ${{ inputs.image }}:${tag} ghcr.io/${{ inputs.owner }}/${{ github.event.repository.name }}/${{ inputs.image }}:${tag}
+            docker push ${{ inputs.owner}}/${{ inputs.image }}:${tag}
+            docker push ghcr.io/${{ inputs.owner}}/${{ github.event.repository.name }}/${{ inputs.image }}:${tag}
           done
         fi
